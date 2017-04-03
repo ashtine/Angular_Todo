@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/tastejs/todomvc-app-css/master/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular-route.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body ng-app="todoApp" ng-controller="todoCtrl">
+    <section class="todoapp">
+      <header class="header">
+         <h1>Angular 1.x</h1>
+         <input ng-keypress="createTodo($event, newTodoTitle)" ng-model="newTodoTitle" class="new-todo" placeholder="What needs to be done?" autofocus>
+      </header>
+
+      <section class="main">
+        <input class="toggle-all" type="checkbox" ng-click="toggleAll($event)">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list">
+          <li todo-item ng-repeat='todo in todos' ng-class="{completed : todo.completed}">
+            <div class="view" ng-if="status === null || status === 'active' && todo.completed === false || status === 'completed' && todo.completed === true">
+              <input ng-click="toggle(todo.id)" class="toggle" type="checkbox" ng-checked="todo.completed">
+                <label>{{todo.title}}</label>
+              <button ng-click="remove(todo.id)" class="destroy"></button>
+            </div>
+            <input ng-keydown="save($event, todo.id, saveTodoVal)" 
+               ng-model="saveTodoVal" ng-init="saveTodoVal=todo.title" class="edit">
+          </li>
+        </ul>
+      </section>
+              
+      <footer class="footer">
+        <span class="todo-count">
+          <strong total-todos>0</strong> item left</span>
+          <ul class="filters">
+            <li>
+              <a ng-class="{selected: status === null}" href="#/">All</a>
+            </li>
+            <li>
+              <a ng-class="{selected: status === 'active'}" href="#/active">Active</a>
+            </li>
+            <li>
+              <a ng-class="{selected: status === 'completed'}" href="#/completed">Completed</a>
+            </li>
+          </ul>
+        <button ng-click="clearCompleted()" class="clear-completed">Clear completed</button>
+      </footer>
+    </section>
+    <footer class="info">
+          <p>Double-click to edit a todo</p>
+    </footer>
+  </body>
+</html>
